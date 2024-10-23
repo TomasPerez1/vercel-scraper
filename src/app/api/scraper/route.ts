@@ -2,11 +2,11 @@ import chromium from "@sparticuz/chromium-min";
 import puppeteer from "puppeteer-core";
 import { v2 as cloudinary } from "cloudinary";
 
-cloudinary.config({
-  cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
-});
+// cloudinary.config({
+//   cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
+//   api_key: process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY,
+//   api_secret: process.env.CLOUDINARY_API_SECRET,
+// });
 
 export const maxDuration = 20;
 
@@ -193,23 +193,23 @@ export async function POST(request: Request) {
     const screenshot = await page.screenshot();
     await browser.close();
 
-    const resource = await new Promise((resolve, reject) => {
-      cloudinary.uploader
-        .upload_stream({}, function (error: unknown, result: unknown) {
-          if (error) {
-            reject(error);
-            return;
-          }
-          resolve(result);
-        })
-        .end(screenshot);
-    });
+    // const resource = await new Promise((resolve, reject) => {
+    //   cloudinary.uploader
+    //     .upload_stream({}, function (error: unknown, result: unknown) {
+    //       if (error) {
+    //         reject(error);
+    //         return;
+    //       }
+    //       resolve(result);
+    //     })
+    //     .end(screenshot);
+    // });
 
     return Response.json({
       siteUrl,
       property,
       pageTitle,
-      resource,
+      // resource,
     });
   } catch (err) {
     console.log("Routes err", err);
