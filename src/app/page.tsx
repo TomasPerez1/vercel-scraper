@@ -14,7 +14,7 @@ export default function Home() {
       body: JSON.stringify({
         siteUrl: 'https://casa.mercadolibre.com.ar/MLA-1454473537-casa-en-alquiler-permanente-5-amb-con-pileta-y-vista-al-lago-costa-del-sol-bariloche-_JM#polycard_client=search-nordic&position=1&search_layout=grid&type=item&tracking_id=e9835c76-676e-4694-bac2-6829ad1b6f31'
       })
-    }).then(r => r.json())
+    }).then(r => r.json()).catch(err => console.log("Then", err))
     setResults(results)
   }
 
