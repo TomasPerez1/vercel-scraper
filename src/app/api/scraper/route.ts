@@ -30,57 +30,54 @@ export async function POST(request: Request) {
       ignoreHTTPSErrors: true,
     });
     console.log("browser", browser);
-    return Response.json({
-      state: "ok",
+    const page = await browser.newPage();
+    await page.goto(siteUrl);
+    const pageTitle = await page.title();
+
+    const property = await page.evaluate(() => {
+      try {
+        //?----------- TITLE -----------
+        const title =
+          document.getElementsByClassName("ui-pdp-title")[0]?.textContent;
+        const imgs_elemnts = document.getElementsByClassName(
+          "ui-pdp-image ui-pdp-gallery__figure__image"
+        );
+        //?----------- PRICE -----------
+        const priceCurrency = document.getElementsByClassName(
+          "andes-money-amount__currency-symbol"
+        )[0]["textContent"];
+        let currency = "";
+        console.log("CURRENCY", priceCurrency);
+        if (priceCurrency === "US$") {
+          currency = "usd";
+        } else if (priceCurrency === "$") {
+          currency = "ars";
+        }
+
+        //?----------- DESCRIPTION -----------
+        const description = document.querySelectorAll(
+          ".ui-pdp-description__content"
+        )[0]["textContent"];
+
+        return {
+          title,
+          currency,
+          description,
+        };
+      } catch (err) {
+        console.log("Evaluate err", err);
+        return { message: "get property data err", err };
+      }
     });
-    // const page = await browser.newPage();
-    // await page.goto(siteUrl);
-    // const pageTitle = await page.title();
 
-    // const property = await page.evaluate(() => {
-    //   try {
-    //     //?----------- TITLE -----------
-    //     const title =
-    //       document.getElementsByClassName("ui-pdp-title")[0]?.textContent;
-    //     const imgs_elemnts = document.getElementsByClassName(
-    //       "ui-pdp-image ui-pdp-gallery__figure__image"
-    //     );
-    //     //?----------- PRICE -----------
-    //     const priceCurrency = document.getElementsByClassName(
-    //       "andes-money-amount__currency-symbol"
-    //     )[0]["textContent"];
-    //     let currency = "";
-    //     console.log("CURRENCY", priceCurrency);
-    //     if (priceCurrency === "US$") {
-    //       currency = "usd";
-    //     } else if (priceCurrency === "$") {
-    //       currency = "ars";
-    //     }
+    const screenshot = await page.screenshot();
+    await browser.close();
 
-    //     //?----------- DESCRIPTION -----------
-    //     const description = document.querySelectorAll(
-    //       ".ui-pdp-description__content"
-    //     )[0]["textContent"];
-
-    //     return {
-    //       title,
-    //       currency,
-    //       description,
-    //     };
-    //   } catch (err) {
-    //     console.log("Evaluate err", err);
-    //     return { message: "get property data err", err };
-    //   }
-    // });
-
-    // const screenshot = await page.screenshot();
-    // await browser.close();
-
-    // return Response.json({
-    //   siteUrl,
-    //   property,
-    //   pageTitle,
-    // });
+    return Response.json({
+      siteUrl,
+      property,
+      pageTitle,
+    });
   } catch (err) {
     console.log("Post err", err);
 
