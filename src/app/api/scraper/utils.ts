@@ -4,9 +4,9 @@ export async function getPropertyMl(page: any) {
       //?----------- TITLE -----------
       const title =
         document.getElementsByClassName("ui-pdp-title")[0]?.textContent;
-      const imgs_elemnts = document.getElementsByClassName(
-        "ui-pdp-image ui-pdp-gallery__figure__image"
-      );
+      // const imgs_elemnts = document.getElementsByClassName(
+      //   "ui-pdp-image ui-pdp-gallery__figure__image"
+      // );
       //?----------- DESCRIPTION -----------
       const description = document.querySelectorAll(
         ".ui-pdp-description__content"
@@ -39,66 +39,187 @@ export async function getPropertyMl(page: any) {
         }
       };
 
-      // //?----------- VARIABLE VALUES -----------
-      // const variable_values = Array.from(
-      //   document.getElementsByClassName(
-      //     "ui-pdp-color--BLACK ui-pdp-size--SMALL ui-pdp-family--REGULAR ui-pdp-label"
-      //     // ? estos elementos pueden aparecer o no en el renderizado
-      //   )
-      // );
-      // if (!variable_values) {
-      //   console.log("CANT ACCESS VARIABLE VALUES");
-      // }
-      // // //?----------- FEATURES -----------
-      // const [_m2, _rooms, _bathrooms]: any[] = variable_values
-      //   ? variable_values
-      //   : ["err", "err", "err"]; // ? Como manejo el err al obtener los variable values
-      // let m2 = _m2 ? parseInt(_m2["textContent"]?.slice(0, 2)) : null;
-      // let rooms = _rooms ? parseInt(_rooms["textContent"]?.slice(0, 2)) : null;
-      // let bathrooms = _bathrooms
-      //   ? parseInt(_bathrooms["textContent"]?.slice(0, 2))
-      //   : null;
-      // const detailedValues = Array.from(
-      //   document.getElementsByClassName("ui-vpp-striped-specs")
-      // )[0];
+      //?----------- FEATURES -----------
+      const variable_values = document.getElementsByClassName(
+        "ui-pdp-color--BLACK ui-pdp-size--SMALL ui-pdp-family--REGULAR ui-pdp-label"
+        // ? estos elementos pueden aparecer o no en el renderizado
+      );
+      let rooms = 69;
+      let bathrooms = 69;
+      if (variable_values && Array.from(variable_values)?.length) {
+        const [_m2, _rooms, _bathrooms] = Array.from(variable_values);
+        if (_rooms) {
+          const roomsText = `${_rooms["textContent"]}`;
+          rooms = parseInt(roomsText.slice(0, 2));
+        }
+        if (_bathrooms) {
+          const bathroomsText = `${_bathrooms["textContent"]}`;
+          bathrooms = parseInt(bathroomsText.slice(0, 2));
+        }
+      }
 
-      const detailedValues = Array.from(
-        document.getElementsByClassName("ui-vpp-striped-specs")
-      )[0];
-      const tableBody = Array.from(
-        detailedValues.querySelectorAll(".andes-table__body")
-      )[0];
-      const [_totalM2, _coverM2, _enviroments, _rooms, _bathrooms, _garage] =
-        Array.from(tableBody["children"]);
+      ///?----------- QUANTITY & DETAIL VALUES -----------
+      const getDetailValues = () => {
+        if (!document) return { err: "no document" };
+        const detailedValuesElement = Array.from(
+          document.getElementsByClassName("ui-vpp-striped-specs")
+        );
+        if (detailedValuesElement && detailedValuesElement[0]) {
+          const detailedValues = detailedValuesElement[0];
+          const tableBody = Array.from(
+            detailedValues.querySelectorAll(".andes-table__body")
+          )[0];
+          const [
+            _totalM2,
+            _coverM2,
+            _enviroments,
+            _rooms,
+            _bathrooms,
+            _garage,
+          ] = Array.from(tableBody["children"]);
+          const totalM2 = _totalM2
+            ? parseInt(
+                _totalM2
+                  .querySelector(".andes-table__column")
+                  ?.textContent?.replace("m²", "")
+                  .trim() || "0"
+              )
+            : null;
 
-      const totalM2 = parseInt(
-        `${_totalM2
-          ?.querySelector(".andes-table__column")
-          ["textContent"]?.replace("m²", "")
-          .trim()}`
-      );
-      const coverM2 = parseInt(
-        `${_coverM2
-          ?.querySelector(".andes-table__column")
-          ["textContent"]?.replace("m²", "")
-          .trim()}`
-      );
-      const enviroments = parseInt(
-        _enviroments?.querySelector(".andes-table__column")["textContent"]
-      );
-      const garages = parseInt(
-        _garage?.querySelector(".andes-table__column")["textContent"]
-      );
+          const coverM2 = _coverM2
+            ? parseInt(
+                _coverM2
+                  .querySelector(".andes-table__column")
+                  ?.textContent?.replace("m²", "")
+                  .trim() || "0"
+              )
+            : null;
 
+          const enviroments = _enviroments
+            ? parseInt(
+                _enviroments.querySelector(".andes-table__column")
+                  ?.textContent || "0"
+              )
+            : null;
+
+          const garages = _garage
+            ? parseInt(
+                _garage.querySelector(".andes-table__column")?.textContent ||
+                  "0"
+              )
+            : null;
+
+          const rooms = _rooms
+            ? parseInt(
+                _rooms
+                  .querySelector(".andes-table__column")
+                  ?.textContent?.trim() || "0"
+              )
+            : null;
+
+          const bathrooms = _bathrooms
+            ? parseInt(
+                _bathrooms
+                  .querySelector(".andes-table__column")
+                  ?.textContent?.trim() || "0"
+              )
+            : null;
+
+          return {
+            totalM2,
+            coverM2,
+            rooms,
+            garages,
+            bathrooms,
+            enviroments,
+          };
+        } else {
+          const detailedSpecsElement = Array.from(
+            document.getElementsByClassName("ui-pdp-specs__table")
+          );
+          if (detailedSpecsElement && detailedSpecsElement[0]) {
+            const detailedSpecs = detailedSpecsElement[0];
+            const tableBody =
+              detailedSpecs?.querySelector(".andes-table__body");
+            if (!tableBody) {
+              console.log("no hay tablebody");
+              return { err: "no tableBody" };
+            }
+
+            const [_totalM2, _coverM2] = Array.from(tableBody["children"]);
+
+            let enviroments = null;
+            let garages = null;
+            // let bathrooms = null;
+            // let rooms = null;
+
+            Array.from(tableBody["children"]).map((children) => {
+              if (children && children["textContent"]?.includes("Ambientes")) {
+                enviroments = parseInt(
+                  children["textContent"].replace("Ambientes", "").trim()
+                );
+              } else if (
+                children &&
+                children["textContent"]?.includes("Cocheras")
+              ) {
+                garages = parseInt(
+                  children["textContent"]?.replace("Cocheras", "")?.trim()
+                );
+              } /* else if (
+                children &&
+                children["textContent"]?.includes("Baños")
+              ) {
+                bathrooms = parseInt(
+                  children["textContent"]?.replace("Baños", "")?.trim()
+                );
+              } else if (
+                children &&
+                children["textContent"]?.includes("Dormitorios")
+              ) {
+                rooms = parseInt(
+                  children["textContent"]?.replace("Dormitorios", "")?.trim()
+                );
+              } */
+            });
+
+            const totalM2 = parseInt(
+              _totalM2
+                ?.querySelector(".andes-table__column")
+                ?.textContent?.replace("m²", "")
+                .trim() || "0"
+            );
+
+            const coverM2 = parseInt(
+              _coverM2
+                ?.querySelector(".andes-table__column")
+                ?.textContent?.replace("m²", "")
+                .trim() || "0"
+            );
+
+            return {
+              totalM2,
+              coverM2,
+              enviroments,
+              garages,
+              // bathrooms,
+              // rooms,
+            };
+          }
+        }
+      };
+      const detailedValues = getDetailValues();
       return {
         title,
-        description,
-        totalM2,
-        m2,
-        rooms,
-        bathrooms,
         price,
         currency: getCurrency(priceCurrencyText),
+        description,
+        rooms,
+        bathrooms,
+        ...detailedValues,
+        // rooms,
+        // bathrooms,
+        // garages,
+        // enviroments,
       };
 
       // //?----------- IMGS -----------
@@ -183,5 +304,6 @@ export async function getPropertyMl(page: any) {
       return { message: "get property data err", err };
     }
   });
+  console.log(property?.detailElement || "nulliano");
   return property;
 }

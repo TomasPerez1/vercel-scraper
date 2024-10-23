@@ -29,10 +29,12 @@ export async function POST(request: Request) {
     });
     const page = await browser.newPage();
     await page.goto(siteUrl);
+
     const pageTitle = await page.title();
 
     const property = await getPropertyMl(page);
-    // await browser.close();
+
+    await browser.close();
 
     return Response.json({
       siteUrl,
