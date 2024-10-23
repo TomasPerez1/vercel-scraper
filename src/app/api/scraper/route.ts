@@ -31,47 +31,6 @@ export async function POST(request: Request) {
     await page.goto(siteUrl);
     const pageTitle = await page.title();
 
-    // const property = await page.evaluate(() => {
-    //   try {
-    //     //?----------- TITLE -----------
-    //     const title =
-    //       document.getElementsByClassName("ui-pdp-title")[0]?.textContent;
-    //     //?----------- PRICE -----------
-    //     const priceElement = document.getElementsByClassName(
-    //       "andes-money-amount__fraction"
-    //     );
-    //     const price = parseInt(
-    //       priceElement[0]["textContent"].replaceAll(".", "")
-    //     );
-    //     const priceCurrency = document.getElementsByClassName(
-    //       "andes-money-amount__currency-symbol"
-    //     )[0]["textContent"];
-    //     let currency = "";
-    //     if (priceCurrency === "US$") {
-    //       currency = "usd";
-    //     } else if (priceCurrency === "$") {
-    //       currency = "ars";
-    //     }
-    //     //?----------- DESCRIPTION -----------
-    //     const description = document.querySelectorAll(
-    //       ".ui-pdp-description__content"
-    //     )[0]["textContent"];
-
-    //     //?----------- IMGS -----------
-    //     const imgs_elemnts = document.getElementsByClassName(
-    //       "ui-pdp-image ui-pdp-gallery__figure__image"
-    //     );
-    //     return {
-    //       title,
-    //       price,
-    //       currency,
-    //       description,
-    //     };
-    //   } catch (err) {
-    //     console.log("Evaluate err", err);
-    //     return { message: "get property data err", err };
-    //   }
-    // });
     const property = await getPropertyMl(page);
     await browser.close();
 
