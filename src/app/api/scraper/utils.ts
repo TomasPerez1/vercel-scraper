@@ -4,9 +4,7 @@ export async function getPropertyMl(page: any) {
       //?----------- TITLE -----------
       const title =
         document.getElementsByClassName("ui-pdp-title")[0]?.textContent;
-      // const imgs_elemnts = document.getElementsByClassName(
-      //   "ui-pdp-image ui-pdp-gallery__figure__image"
-      // );
+
       //?----------- DESCRIPTION -----------
       const description = document.querySelectorAll(
         ".ui-pdp-description__content"
@@ -208,6 +206,27 @@ export async function getPropertyMl(page: any) {
         }
       };
       const detailedValues = getDetailValues();
+
+      //?----------- IMGS -----------
+      const imgs_elemnts = document.getElementsByClassName(
+        "ui-pdp-image ui-pdp-gallery__figure__image"
+      );
+      const parseImgs = (imgElemnt: any) => {
+        if (imgElemnt["src"] && imgElemnt["src"][0] === "h") {
+          // ? Si comienza por "https" se trajo bien la imgagen
+          return imgElemnt["src"];
+        } else {
+          const lazySrc = imgElemnt.getAttribute("data-zoom");
+          return lazySrc ? lazySrc : "";
+        }
+      };
+      const imgs = imgs_elemnts
+        ? Array.from(imgs_elemnts)
+            .slice(0, 5)
+            .map((img) => parseImgs(img))
+            .filter((img) => typeof img === "string" && img.length > 1)
+        : [];
+
       return {
         title,
         price,
@@ -215,90 +234,9 @@ export async function getPropertyMl(page: any) {
         description,
         rooms,
         bathrooms,
+        imgs,
         ...detailedValues,
-        // rooms,
-        // bathrooms,
-        // garages,
-        // enviroments,
       };
-
-      // //?----------- IMGS -----------
-      // const parseImgs = (imgElemnt: any) => {
-      //   if (imgElemnt["src"] && imgElemnt["src"][0] === "h") {
-      //     // ? Si comienza por "https" se trajo bien la imgagen
-      //     return imgElemnt["src"];
-      //   } else {
-      //     const lazySrc = imgElemnt.getAttribute("data-zoom");
-      //     return lazySrc ? lazySrc : "";
-      //   }
-      // };
-      // const imgs = Array.from(imgs_elemnts)
-      //   .slice(0, 5)
-      //   .map((img) => parseImgs(img))
-      //   .filter((img) => typeof img === "string" && img.length > 1);
-
-      //   return {
-      //     title,
-      //     imgs,
-      //     price,
-      //     currency,
-      //     description,
-      //     m2,
-      //     totalM2,
-      //     coverM2,
-      //     rooms,
-      //     garages,
-      //     bathrooms,
-      //     enviroments,
-      //   };
-      // } else {
-      // const detailedSpecs = Array.from(
-      //   document.getElementsByClassName("ui-pdp-specs__table")
-      // )[0];
-      // const tableBody = detailedSpecs?.querySelector(".andes-table__body");
-      // const [_totalM2, _coverM2] = tableBody["children"];
-
-      // let enviroments = null;
-      // let garages = null;
-      // Array.from(tableBody["children"]).map((children) => {
-      //   if (children["textContent"].includes("Ambientes")) {
-      //     enviroments = parseInt(
-      //       children["textContent"].replace("Ambientes", "").trim()
-      //     );
-      //   } else if (children["textContent"].includes("Cocheras")) {
-      //     garages = parseInt(
-      //       children["textContent"].replace("Cocheras", "").trim()
-      //     );
-      //   }
-      // });
-
-      // const totalM2 = parseInt(
-      //   _totalM2
-      //     ?.querySelector(".andes-table__column")
-      //     ["textContent"]?.replace("m²", "")
-      //     .trim()
-      // );
-      // const coverM2 = parseInt(
-      //   _coverM2
-      //     ?.querySelector(".andes-table__column")
-      //     ["textContent"]?.replace("m²", "")
-      //     .trim()
-      // );
-      // return {
-      //   title,
-      //   imgs,
-      //   price,
-      //   currency,
-      //   description,
-      //   m2,
-      //   totalM2,
-      //   coverM2,
-      //   rooms,
-      //   bathrooms,
-      //   enviroments,
-      //   garages,
-      // };
-      // }
     } catch (err) {
       console.log("Evaluate err", err);
       return { message: "get property data err", err };
