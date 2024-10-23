@@ -42,7 +42,7 @@ export default function Home() {
           </p>
           {result && (
             <div className="grid">
-              <pre className="bg-zinc-200 text-left py-4 px-5 rounded overflow-x-scroll">
+              <pre className="bg-gray-800 text-white text-left py-4 px-5 rounded overflow-x-scroll">
                 <code>{JSON.stringify(result, undefined, 2)}</code>
               </pre>
             </div>
