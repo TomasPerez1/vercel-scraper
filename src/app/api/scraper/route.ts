@@ -21,7 +21,7 @@ export async function POST(request: Request) {
     executablePath:
       process.env.CHROME_EXECUTABLE_PATH ||
       (await chromium.executablePath(
-        "https://chromium-instance.s3.us-east-1.amazonaws.com/chromium-v126.0.0-pack.tar"
+        "https://chromium-scraper.s3.us-east-1.amazonaws.com/chromium-v126.0.0-pack.tar"
       )),
     headless: chromium.headless,
   });
