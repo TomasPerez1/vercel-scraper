@@ -11,6 +11,10 @@ export async function POST(request: Request) {
 
     const isLocal = !!process.env.CHROME_EXECUTABLE_PATH;
     console.log(isLocal);
+    const img = await axios.get(
+      "https://chromium-scraper.s3.us-east-1.amazonaws.com/WIN_20240613_17_55_41_Pro.jpg"
+    );
+    console.log("IMG", img);
     // const exe = !isLocal
     //   ? await chromium.executablePath(
     //       "https://chromium-scraper.s3.us-east-1.amazonaws.com/chromium-v126.0.0-pack.tar"
@@ -18,24 +22,24 @@ export async function POST(request: Request) {
     //   : "zaracatunga";
     // console.log("PATH", exe);
 
-    const browser = await puppeteer.launch({
-      args: isLocal
-        ? puppeteer.defaultArgs()
-        : [
-            ...chromium.args,
-            "--hide-scrollbars",
-            "--incognito",
-            "--no-sandbox",
-          ],
-      defaultViewport: chromium.defaultViewport,
-      executablePath: isLocal
-        ? process.env.CHROME_EXECUTABLE_PATH
-        : "https://chromium-scraper.s3.us-east-1.amazonaws.com/chromium-v126.0.0-pack.tar",
+    // const browser = await puppeteer.launch({
+    //   args: isLocal
+    //     ? puppeteer.defaultArgs()
+    //     : [
+    //         ...chromium.args,
+    //         "--hide-scrollbars",
+    //         "--incognito",
+    //         "--no-sandbox",
+    //       ],
+    //   defaultViewport: chromium.defaultViewport,
+    //   executablePath: isLocal
+    //     ? process.env.CHROME_EXECUTABLE_PATH
+    //     : "https://chromium-scraper.s3.us-east-1.amazonaws.com/chromium-v126.0.0-pack.tar",
 
-      headless: chromium.headless,
-      ignoreHTTPSErrors: true,
-    });
-    console.log("browser", browser);
+    //   headless: chromium.headless,
+    //   ignoreHTTPSErrors: true,
+    // });
+    // console.log("browser", browser);
     return Response.json({
       state: "ok",
     });
