@@ -13,7 +13,7 @@ export async function POST(request: Request) {
     console.log(isLocal);
 
     const exe = await chromium.executablePath(
-      "https://chromium-scraper.s3.us-east-1.amazonaws.com/chromium-v126.0.0-pack.tar"
+      "https://public-chromium.s3.us-east-1.amazonaws.com/chromium-v126.0.0-pack.tar"
     );
 
     console.log("PATH", exe);
