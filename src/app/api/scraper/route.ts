@@ -7,24 +7,24 @@ export const maxDuration = 20;
 export async function POST(request: Request) {
   try {
     const { siteUrl } = await request.json();
-    console.log(request.body);
-    return Response.json({
-      miraElBody: siteUrl,
+
+    const isLocal = !!process.env.CHROME_EXECUTABLE_PATH;
+
+    const browser = await puppeteer.launch({
+      args: isLocal ? puppeteer.defaultArgs() : chromium.args,
+      defaultViewport: chromium.defaultViewport,
+      executablePath:
+        process.env.CHROME_EXECUTABLE_PATH ||
+        (await chromium.executablePath(
+          "https://chromium-scraper.s3.us-east-1.amazonaws.com/chromium-v126.0.0-pack.tar"
+        )),
+      headless: chromium.headless,
+      ignoreHTTPSErrors: true,
     });
-    // const isLocal = !!process.env.CHROME_EXECUTABLE_PATH;
 
-    // const browser = await puppeteer.launch({
-    //   args: isLocal ? puppeteer.defaultArgs() : chromium.args,
-    //   defaultViewport: chromium.defaultViewport,
-    //   executablePath:
-    //     process.env.CHROME_EXECUTABLE_PATH ||
-    //     (await chromium.executablePath(
-    //       "https://chromium-scraper.s3.us-east-1.amazonaws.com/chromium-v126.0.0-pack.tar"
-    //     )),
-    //   headless: chromium.headless,
-    //   ignoreHTTPSErrors: true,
-    // });
-
+    return Response.json({
+      browser,
+    });
     // const page = await browser.newPage();
     // await page.goto(siteUrl);
     // const pageTitle = await page.title();
@@ -74,7 +74,7 @@ export async function POST(request: Request) {
     //   pageTitle,
     // });
   } catch (err) {
-    console.log("Routes err", err);
+    console.log("Post err", err);
 
     return Response.json({
       err,
