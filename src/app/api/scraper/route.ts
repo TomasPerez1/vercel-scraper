@@ -1,6 +1,7 @@
 import chromium from "@sparticuz/chromium-min";
 import puppeteer from "puppeteer-core";
 import { v2 as cloudinary } from "cloudinary";
+import axios from "axios";
 
 export const maxDuration = 20;
 
@@ -9,12 +10,13 @@ export async function POST(request: Request) {
     const { siteUrl } = await request.json();
 
     const isLocal = !!process.env.CHROME_EXECUTABLE_PATH;
-    const exe = !isLocal
-      ? await chromium.executablePath(
-          "https://chromium-scraper.s3.us-east-1.amazonaws.com/chromium-v126.0.0-pack.tar"
-        )
-      : "zaracatunga";
-    console.log("PATH", exe);
+    // const exe = !isLocal
+    //   ? await chromium.executablePath(
+    //       "https://chromium-scraper.s3.us-east-1.amazonaws.com/chromium-v126.0.0-pack.tar"
+    //     )
+    //   : "zaracatunga";
+    // console.log("PATH",exe);
+    // const img = axios.get()
     // const browser = await puppeteer.launch({
     //   args: isLocal
     //     ? puppeteer.defaultArgs()

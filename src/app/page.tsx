@@ -31,6 +31,9 @@ export default function Home() {
           <p className="mb-2">
             Click the button to test out your new scraper.
           </p>
+          <div className='border-2'>
+            <img src="https://chromium-scraper.s3.us-east-1.amazonaws.com/WIN_20240613_17_55_41_Pro.jpg" alt="img_ejemplo" />
+          </div>
           <p className="text-sm text-zinc-700 italic mb-6">
             Psst. Make sure you <a className="text-blue-500 underline" href="https://spacejelly.dev" target="_blank">build it first</a>!
           </p>
