@@ -9,10 +9,21 @@ export async function POST(request: Request) {
     const { siteUrl } = await request.json();
 
     const isLocal = !!process.env.CHROME_EXECUTABLE_PATH;
+    const exe = !isLocal
+      ? await chromium.executablePath(
+          "https://chromium-scraper.s3.us-east-1.amazonaws.com/chromium-v126.0.0-pack.tar"
+        )
+      : "zaracatunga";
+    console.log(exe);
     const browser = await puppeteer.launch({
       args: isLocal
         ? puppeteer.defaultArgs()
-        : [...chromium.args, "--hide-scrollbars", "--incognito", "--no-sandbox"],
+        : [
+            ...chromium.args,
+            "--hide-scrollbars",
+            "--incognito",
+            "--no-sandbox",
+          ],
       defaultViewport: chromium.defaultViewport,
       executablePath: isLocal
         ? process.env.CHROME_EXECUTABLE_PATH
