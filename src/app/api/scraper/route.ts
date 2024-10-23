@@ -70,7 +70,6 @@ export async function POST(request: Request) {
       }
     });
 
-    const screenshot = await page.screenshot();
     await browser.close();
 
     return Response.json({
