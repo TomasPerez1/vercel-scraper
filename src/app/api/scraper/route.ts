@@ -10,7 +10,9 @@ export async function POST(request: Request) {
 
     const isLocal = !!process.env.CHROME_EXECUTABLE_PATH;
     const browser = await puppeteer.launch({
-      args: isLocal ? puppeteer.defaultArgs() : chromium.args,
+      args: isLocal
+        ? puppeteer.defaultArgs()
+        : [...chromium.args, "--hide-scrollbars", "--incognito", "--no-sandbox"],
       defaultViewport: chromium.defaultViewport,
       executablePath: isLocal
         ? process.env.CHROME_EXECUTABLE_PATH
