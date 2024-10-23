@@ -21,8 +21,7 @@ export async function POST(request: Request) {
       executablePath: isLocal
         ? process.env.CHROME_EXECUTABLE_PATH
         : await chromium.executablePath(
-            "ejemplo"
-            // "https://public-chromium.s3.us-east-1.amazonaws.com/chromium-v126.0.0-pack.tar"
+            "https://public-chromium.s3.us-east-1.amazonaws.com/chromium-v126.0.0-pack.tar"
           ),
       headless: chromium.headless,
       ignoreHTTPSErrors: true,
