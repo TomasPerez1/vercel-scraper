@@ -11,16 +11,12 @@ export async function POST(request: Request) {
 
     const isLocal = !!process.env.CHROME_EXECUTABLE_PATH;
     console.log(isLocal);
-    const img = await axios.get(
-      "https://chromium-scraper.s3.us-east-1.amazonaws.com/WIN_20240613_17_55_41_Pro.jpg"
+
+    const exe = await chromium.executablePath(
+      "https://chromium-scraper.s3.us-east-1.amazonaws.com/chromium-v126.0.0-pack.tar"
     );
-    console.log("IMG", img);
-    // const exe = !isLocal
-    //   ? await chromium.executablePath(
-    //       "https://chromium-scraper.s3.us-east-1.amazonaws.com/chromium-v126.0.0-pack.tar"
-    //     )
-    //   : "zaracatunga";
-    // console.log("PATH", exe);
+
+    console.log("PATH", exe);
 
     // const browser = await puppeteer.launch({
     //   args: isLocal
