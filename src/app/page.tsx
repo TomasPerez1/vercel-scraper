@@ -8,12 +8,22 @@ import axios from 'axios';
 
 export default function Home() {
   const [result, setResults] = useState<object>();
-  const [siteUrl, setSiteUrl] = useState("https://casa.mercadolibre.com.ar/MLA-1454473537-casa-en-alquiler-permanente-5-amb-con-pileta-y-vista-al-lago-costa-del-sol-bariloche-_JM#polycard_client=search-nordic&position=1&search_layout=grid&type=item&tracking_id=4a66176d-186f-4bef-bedb-a1f56486810a")
+  const [siteUrl, setSiteUrl] = useState("https://www.zonaprop.com.ar/propiedades/clasificado/alclappa-impecable-departamento-en-alquiler-permanente-54509063.html")
 
   async function handleOnClick() {
     console.log(siteUrl)
     
     const property = await  axios.post('/api/scraper/mercado-libre', {
+      siteUrl
+    })
+    console.log("UNA PROPERTY", property.data)
+    setResults(property.data)
+  }
+
+   async function handleZp() {
+    console.log(siteUrl)
+    
+    const property = await  axios.post('/api/scraper/zona-prop', {
       siteUrl
     })
     console.log("UNA PROPERTY", property.data)
@@ -78,11 +88,11 @@ export default function Home() {
             Psst. Make sure you <a className="text-blue-500 underline" href="https://spacejelly.dev" target="_blank">build it first</a>!
           </p>
           <input type="text" onChange={(evt) => setSiteUrl(evt.target.value)} />
-          <p className="mb-6">
+          {/* <p className="mb-6">
             <button className="btn btn-primary" onClick={handleOnClickAll}>SCRAP ALL</button>
-          </p>
+          </p> */}
           <p className="mb-6">
-            <button className="btn " onClick={handleOnClick}>SCRAP ONE</button>
+            <button className="btn  btn-primary" onClick={handleZp}>SCRAP ONE</button>
           </p>
           {result && (
             <div className="grid">
