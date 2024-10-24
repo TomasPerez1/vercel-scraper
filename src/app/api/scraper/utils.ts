@@ -42,8 +42,8 @@ export async function getPropertyMl(page: any) {
         "ui-pdp-color--BLACK ui-pdp-size--SMALL ui-pdp-family--REGULAR ui-pdp-label"
         // ? estos elementos pueden aparecer o no en el renderizado
       );
-      let rooms = 69;
-      let bathrooms = 69;
+      let rooms = 0;
+      let bathrooms = 0;
       if (variable_values && Array.from(variable_values)?.length) {
         const [_m2, _rooms, _bathrooms] = Array.from(variable_values);
         if (_rooms) {
@@ -244,4 +244,35 @@ export async function getPropertyMl(page: any) {
   });
   console.log(property?.detailElement || "nulliano");
   return property;
+}
+
+import chromium from "@sparticuz/chromium-min";
+import puppeteer from "puppeteer-core";
+export async function getBrowser() {
+  try {
+    const isLocal = !!process.env.CHROME_EXECUTABLE_PATH;
+    console.log(isLocal);
+    const browser = await puppeteer.launch({
+      args: isLocal
+        ? puppeteer.defaultArgs()
+        : [
+            ...chromium.args,
+            "--hide-scrollbars",
+            "--incognito",
+            "--no-sandbox",
+          ],
+      defaultViewport: chromium.defaultViewport,
+      executablePath: isLocal
+        ? process.env.CHROME_EXECUTABLE_PATH
+        : await chromium.executablePath(
+            "https://public-chromium.s3.us-east-1.amazonaws.com/chromium-v126.0.0-pack.tar"
+          ),
+      headless: chromium.headless,
+      ignoreHTTPSErrors: true,
+    });
+    return browser;
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
 }
