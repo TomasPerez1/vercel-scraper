@@ -9,18 +9,26 @@ import axios from 'axios';
 export default function Home() {
   const [result, setResults] = useState<object>();
 
-  async function handleOnClick() {
-    const response = await axios.post('/api/scraper', {
-      siteUrl: 'https://casa.mercadolibre.com.ar/MLA-1454473537-casa-en-alquiler-permanente-5-amb-con-pileta-y-vista-al-lago-costa-del-sol-bariloche-_JM#polycard_client=search-nordic&position=1&search_layout=grid&type=item&tracking_id=e9835c76-676e-4694-bac2-6829ad1b6f31'
-    });
 
-    // const results = await fetch('/api/scraper', {
-    //   method: 'POST',
-    //   body: JSON.stringify({
-    //     siteUrl: 'https://casa.mercadolibre.com.ar/MLA-1454473537-casa-en-alquiler-permanente-5-amb-con-pileta-y-vista-al-lago-costa-del-sol-bariloche-_JM#polycard_client=search-nordic&position=1&search_layout=grid&type=item&tracking_id=e9835c76-676e-4694-bac2-6829ad1b6f31'
-    //   })
-    // }).then(r => r.json()).catch(err => console.log("Then", err))
-    setResults(response.data)
+  
+
+  async function handleOnClick() {
+    const _urls : string[] = [
+    'https://casa.mercadolibre.com.ar/MLA-1454473537-casa-en-alquiler-permanente-5-amb-con-pileta-y-vista-al-lago-costa-del-sol-bariloche-_JM#polycard_client=search-nordic&position=1&search_layout=grid&type=item&tracking_id=4a66176d-186f-4bef-bedb-a1f56486810a',
+    'https://casa.mercadolibre.com.ar/MLA-1455097391-casa-en-alquiler-ideal-para-renta-turistica-hostel-_JM#polycard_client=search-nordic&position=2&search_layout=grid&type=item&tracking_id=4a66176d-186f-4bef-bedb-a1f56486810a',
+    'https://casa.mercadolibre.com.ar/MLA-1442153521-alquiler-en-barrio-las-vertientes-bariloche-_JM#polycard_client=search-nordic&position=3&search_layout=grid&type=item&tracking_id=4a66176d-186f-4bef-bedb-a1f56486810a', 
+    'https://casa.mercadolibre.com.ar/MLA-1448229099-casa-en-alquiler-temporal--_JM#polycard_client=search-nordic&position=4&search_layout=grid&type=item&tracking_id=4a66176d-186f-4bef-bedb-a1f56486810a',
+    'https://casa.mercadolibre.com.ar/MLA-1448085241-casa-en-alquiler-temporal-san-carlos-de-bariloche-_JM#polycard_client=search-nordic&position=5&search_layout=grid&type=item&tracking_id=4a66176d-186f-4bef-bedb-a1f56486810a'
+  ]
+    const promises = _urls.map(url => {
+      return axios.post('/api/scraper', {
+      siteUrl: url
+    })
+    });
+    console.log("promises", promises)
+    const response = await Promise.all(promises)
+    console.log("response", response)
+    setResults(response)
   }
 
   return (
