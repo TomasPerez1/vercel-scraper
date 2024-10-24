@@ -8,11 +8,19 @@ import axios from 'axios';
 
 export default function Home() {
   const [result, setResults] = useState<object>();
-
-
-  
+  const [siteUrl, setSiteUrl] = useState("")
 
   async function handleOnClick() {
+    console.log(siteUrl)
+    const property = await  axios.post('/api/scraper', {
+      siteUrl
+    })
+    console.log("UNA PROPERTY", property)
+    setResults(property)
+  }
+  
+
+  async function handleOnClickAll() {
     const _urls : string[] = [
     'https://casa.mercadolibre.com.ar/MLA-1454473537-casa-en-alquiler-permanente-5-amb-con-pileta-y-vista-al-lago-costa-del-sol-bariloche-_JM#polycard_client=search-nordic&position=1&search_layout=grid&type=item&tracking_id=4a66176d-186f-4bef-bedb-a1f56486810a',
     'https://casa.mercadolibre.com.ar/MLA-1455097391-casa-en-alquiler-ideal-para-renta-turistica-hostel-_JM#polycard_client=search-nordic&position=2&search_layout=grid&type=item&tracking_id=4a66176d-186f-4bef-bedb-a1f56486810a',
@@ -26,9 +34,10 @@ export default function Home() {
     })
     });
     console.log("promises", promises)
-    const response = await Promise.all(promises)
-    console.log("response", response)
-    setResults(response)
+    const responses = await Promise.all(promises)
+    console.log("responses", responses)
+    const parsed = responses.map(res => res.data)
+    setResults(parsed)
   }
 
   return (
@@ -45,8 +54,12 @@ export default function Home() {
           <p className="text-sm text-zinc-700 italic mb-6">
             Psst. Make sure you <a className="text-blue-500 underline" href="https://spacejelly.dev" target="_blank">build it first</a>!
           </p>
+          <input type="text" onChange={(evt) => setSiteUrl(evt.target.value)} />
           <p className="mb-6">
-            <button className="btn btn-primary" onClick={handleOnClick}>Get Started</button>
+            <button className="btn btn-primary" onClick={handleOnClickAll}>SCRAP ALL</button>
+          </p>
+          <p className="mb-6">
+            <button className="btn " onClick={handleOnClick}>SCRAP ONE</button>
           </p>
           {result && (
             <div className="grid">
