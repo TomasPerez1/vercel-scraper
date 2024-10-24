@@ -27,13 +27,11 @@ export async function POST(request: Request) {
       ignoreHTTPSErrors: true,
     });
     const page = await browser.newPage();
-    await page.goto(siteUrl, { waitUntil: "load" });
-    // const content = await page.content();
-    // console.log(content);
-    // await page.reload(); // ? Reload fix the problem to load the necesary elements to scrap
-
-    // await page.waitForDevicePrompt( )
-
+    // ? Set an user agent to avoid cloudflare tunnel
+    await page.setUserAgent(
+      "5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36"
+    );
+    await page.goto(siteUrl);
     const pageTitle = await page.title();
 
     const property = await getPropertyZp(page);
