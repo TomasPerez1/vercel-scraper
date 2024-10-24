@@ -33,15 +33,16 @@ export async function POST(request: Request) {
     );
     await page.goto(siteUrl);
     const pageTitle = await page.title();
-
-    const property = await getPropertyZp(page);
+    const screenshot = await page.screenshot();
+    // const property = await getPropertyZp(page);
     const pageUrl = page.url();
     await browser.close();
 
     return Response.json({
-      property,
-      pageTitle,
+      // property,
       pageUrl,
+      pageTitle,
+      screenshot,
     });
   } catch (err) {
     console.log("Post err", err);
