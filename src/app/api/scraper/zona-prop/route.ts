@@ -42,7 +42,6 @@ export async function POST(request: Request) {
       // property,
       pageUrl,
       pageTitle,
-      screenshot,
     });
   } catch (err) {
     console.log("Post err", err);

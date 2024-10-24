@@ -73,7 +73,7 @@ export async function getPropertyZp(page: Page) {
         (img) => typeof img === "string" && img.length > 1
       );
 
-      //?----------- PRICE -----------
+      //?----------- PRICE -----------w
       const priceElement = document.querySelector(".price-value");
       const priceStr =
         priceElement && priceElement.children[0]

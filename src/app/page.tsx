@@ -10,6 +10,7 @@ export default function Home() {
   const [result, setResults] = useState<object>();
   const [siteUrl, setSiteUrl] = useState("https://www.zonaprop.com.ar/propiedades/clasificado/alclappa-impecable-departamento-en-alquiler-permanente-54509063.html")
 
+
   async function handleOnClick() {
     console.log(siteUrl)
     
@@ -28,6 +29,11 @@ export default function Home() {
     })
     console.log("UNA PROPERTY", property.data)
     setResults(property.data)
+    // const buffer = property.data.screenshot; // Recibe el Buffer
+    // const blob = new Blob([buffer], { type: 'image/png' }); // Crea un Blob a partir del Buffer
+    // const url = URL.createObjectURL(blob); 
+    // console.log("URL GENERADA")
+    // setScreenshot(url)
   }
   
 
@@ -101,7 +107,7 @@ export default function Home() {
               </pre>
             </div>
           )}
-          {/* s */}
+          
         </div>
       </div>
     </main>
