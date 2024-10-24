@@ -13,7 +13,7 @@ export default function Home() {
   async function handleOnClick() {
     console.log(siteUrl)
     
-    const property = await  axios.post('/api/scraper', {
+    const property = await  axios.post('/api/scraper/mercado-libre', {
       siteUrl
     })
     console.log("UNA PROPERTY", property.data)
@@ -52,7 +52,7 @@ export default function Home() {
   'https://casa.mercadolibre.com.ar/MLA-1454843591-alquiler-permanente-monoambiente-b-frutillar-_JM#polycard_client=search-nordic&position=27&search_layout=grid&type=item&tracking_id=2b39b4a1-67ed-4e1c-afdb-bf56fb253f86'
 ]
     const promises = _urls2.map(url => {
-      return axios.post('/api/scraper', {
+      return axios.post('/api/scraper/mercado-libre', {
       siteUrl: url
     })
     });

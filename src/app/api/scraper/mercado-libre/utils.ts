@@ -242,7 +242,6 @@ export async function getPropertyMl(page: any) {
       return { message: "get property data err", err };
     }
   });
-  console.log(property?.detailElement || "nulliano");
   return property;
 }
 
@@ -251,7 +250,6 @@ import puppeteer from "puppeteer-core";
 export async function getBrowser() {
   try {
     const isLocal = !!process.env.CHROME_EXECUTABLE_PATH;
-    console.log(isLocal);
     const browser = await puppeteer.launch({
       args: isLocal
         ? puppeteer.defaultArgs()
