@@ -36,7 +36,7 @@ export async function POST(request: Request) {
 
     const avaliable = async () => {
       try {
-        await page.waitForSelector("#react-posting-app", { timeout: 1000 });
+        await page.waitForSelector("#react-posting-app", { timeout: 3000 }); //? Espera 3 segundos a ver si no aparecio cloudflare
         return true;
       } catch (err) {
         return false;
