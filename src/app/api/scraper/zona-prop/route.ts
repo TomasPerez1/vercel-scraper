@@ -1,5 +1,6 @@
 import chromium from "@sparticuz/chromium-min";
 import puppeteer from "puppeteer-core";
+// import puppeteer from "puppeteer-extra";
 import { getPropertyZp, getPropertyZp2 } from "./utils";
 
 export async function POST(request: Request) {

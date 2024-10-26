@@ -29,11 +29,18 @@ export default function Home() {
     })
     console.log("UNA PROPERTY", property.data)
     setResults(property.data)
-    // const buffer = property.data.screenshot; // Recibe el Buffer
-    // const blob = new Blob([buffer], { type: 'image/png' }); // Crea un Blob a partir del Buffer
-    // const url = URL.createObjectURL(blob); 
-    // console.log("URL GENERADA")
-    // setScreenshot(url)
+
+  }
+
+  async function handleZpExtra() {
+    console.log(siteUrl)
+    
+    const property = await  axios.post('/api/scraper/zona-prop-extra', {
+      siteUrl
+    })
+    console.log("UNA PROPERTY", property.data)
+    setResults(property.data)
+
   }
   
 
@@ -119,10 +126,13 @@ export default function Home() {
             Psst. Make sure you <a className="text-blue-500 underline" href="https://spacejelly.dev" target="_blank">build it first</a>!
           </p>
           <input type="text" onChange={(evt) => setSiteUrl(evt.target.value)} />
-          <p className="mb-6">
+          {/* <p className="mb-6">
             <button className="btn btn-primary" onClick={handleOnClickAll}>SCRAP ALL</button>
+          </p> */}
+          <p className="mb-6">
+            <button className="btn border-4  btn-primary" onClick={handleZpExtra}>SCRAP EXTRAA</button>
           </p>
-          <br />
+          <hr />
           <p className="mb-6">
             <button className="btn  btn-primary" onClick={handleZp}>SCRAP ONE</button>
           </p>
