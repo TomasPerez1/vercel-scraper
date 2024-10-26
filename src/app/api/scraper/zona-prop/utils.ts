@@ -3,8 +3,20 @@ import { Page } from "puppeteer-core";
 export async function getPropertyZp(page: Page) {
   try {
     const property = await page.evaluate(() => {
-      // ? Is requeried HTML charged? 
-      
+      //?----------- TITLE -----------
+      const titleElement = document.querySelector(".section-location-property");
+      const titleElement2 = document.querySelector(".title-property");
+      const title = titleElement
+        ? (titleElement as HTMLElement).outerText
+        : (titleElement2 as HTMLElement).outerText;
+
+      // ? Is requeried HTML charged?
+      if (!title) {
+        return {
+          err: "No se capturo el title",
+          body: document.querySelector("body"),
+        };
+      }
 
       //?----------- FEATURES -----------
       const featuresElement = document.querySelector(
@@ -41,12 +53,6 @@ export async function getPropertyZp(page: Page) {
           features.garages = parseInt(feature.slice(0, feature.indexOf("c")));
         }
       });
-      //?----------- TITLE -----------
-      const titleElement = document.querySelector(".section-location-property");
-      const titleElement2 = document.querySelector(".title-property");
-      const title = titleElement
-        ? (titleElement as HTMLElement).outerText
-        : (titleElement2 as HTMLElement).outerText;
 
       //?----------- IMGS -----------
       const findImgs = (): string[] | [] => {
