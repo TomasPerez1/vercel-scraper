@@ -32,19 +32,18 @@ export async function POST(request: Request) {
       "5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36"
     );
     await page.goto(siteUrl);
-    await page.waitForSelector("#react-posting-app", { timeout: 300000 });
     const pageTitle1 = await page.title();
-    // await page.reload();
-    // const pageTitle2 = await page.title();
-    const property = await getPropertyZp(page);
+    await page.waitForSelector("#react-posting-app", { timeout: 7000 });
+    const pageTitle2 = await page.title();
+    const property = await getPropertyZp2(page);
     const pageUrl = page.url();
     await browser.close();
 
     return Response.json({
       pageUrl,
-      property,
       pageTitle1,
-      // pageTitle2,
+      pageTitle2,
+      property,
     });
   } catch (err) {
     console.log("Post err", err);

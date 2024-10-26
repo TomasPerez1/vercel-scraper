@@ -156,7 +156,7 @@ export async function getPropertyZp2(page: Page) {
     });
     await page.close();
 
-    return { body, propertyLinkStart, propertyLinkEnd: page.url() };
+    return { body };
   } catch (err) {
     console.log(err);
     return {
