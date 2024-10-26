@@ -119,12 +119,12 @@ export default function Home() {
             Psst. Make sure you <a className="text-blue-500 underline" href="https://spacejelly.dev" target="_blank">build it first</a>!
           </p>
           <input type="text" onChange={(evt) => setSiteUrl(evt.target.value)} />
-          <p className="mb-6">
-            <button className="btn btn-primary" onClick={handleOnClickAll}>SCRAP ALL</button>
-          </p>
           {/* <p className="mb-6">
-            <button className="btn  btn-primary" onClick={handleZp}>SCRAP ONE</button>
+            <button className="btn btn-primary" onClick={handleOnClickAll}>SCRAP ALL</button>
           </p> */}
+          <p className="mb-6">
+            <button className="btn  btn-primary" onClick={handleZp}>SCRAP ONE</button>
+          </p>
           {result && (
             <div className="grid">
               <pre className="bg-gray-800 text-white text-left py-4 px-5 rounded overflow-x-scroll">
