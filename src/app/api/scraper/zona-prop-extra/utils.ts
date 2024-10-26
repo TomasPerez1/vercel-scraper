@@ -1,6 +1,7 @@
-import { Page } from "puppeteer-core";
+// import { Page } from "puppeteer";
+// import { Page as PageCore } from "puppeteer-core";
 
-export async function getPropertyZp(page: Page) {
+export async function getPropertyZp(page: any) {
   try {
     const property = await page.evaluate(() => {
       // ? Is requeried HTML charged?

@@ -2,6 +2,7 @@
 import StealthPlugin from "puppeteer-extra-plugin-stealth";
 import puppeteer from "puppeteer-extra";
 import { getPropertyZp, getPropertyZp2 } from "./utils";
+import { Page } from "puppeteer";
 
 export async function POST(request: Request) {
   try {
@@ -42,7 +43,7 @@ export async function POST(request: Request) {
       //   "https://public-chromium.s3.us-east-1.amazonaws.com/chromium-v126.0.0-pack.tar"
       // ), */,
     });
-    const page = await browser.newPage();
+    const page: Page = await browser.newPage();
     await page.goto(siteUrl);
     const pageTitle1 = await page.title();
 
@@ -57,13 +58,14 @@ export async function POST(request: Request) {
 
     // const isAvaliable = await avaliable();
     // const pageTitle2 = await page.title();
-    // const property = await getPropertyZp2(any);
+    const property = await getPropertyZp(page);
     const pageUrl = page.url();
     await browser.close();
 
     return Response.json({
       pageUrl,
       pageTitle1,
+      property,
       // isAvaliable,
       // pageTitle2,
       // property,
