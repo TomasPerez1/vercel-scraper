@@ -3,6 +3,9 @@ import { Page } from "puppeteer-core";
 export async function getPropertyZp(page: Page) {
   try {
     const property = await page.evaluate(() => {
+      // ? Is requeried HTML charged? 
+      
+
       //?----------- FEATURES -----------
       const featuresElement = document.querySelector(
         ".section-icon-features-property"
