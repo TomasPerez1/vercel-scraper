@@ -34,12 +34,12 @@ export async function POST(request: Request) {
     await page.goto(siteUrl);
     const pageTitle = await page.title();
     const screenshot = await page.screenshot();
-    // const property = await getPropertyZp(page);
+    const property = await getPropertyZp(page);
     const pageUrl = page.url();
     await browser.close();
 
     return Response.json({
-      // property,
+      property,
       pageUrl,
       pageTitle,
     });
