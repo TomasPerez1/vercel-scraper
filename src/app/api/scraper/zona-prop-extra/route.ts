@@ -46,27 +46,27 @@ export async function POST(request: Request) {
     await page.goto(siteUrl);
     const pageTitle1 = await page.title();
 
-    const avaliable = async () => {
-      try {
-        await page.waitForSelector("#react-posting-app", { timeout: 3000 }); //? Espera 3 segundos a ver si no aparecio cloudflare
-        return true;
-      } catch (err) {
-        return false;
-      }
-    };
+    // const avaliable = async () => {
+    //   try {
+    //     await page.waitForSelector("#react-posting-app", { timeout: 3000 }); //? Espera 3 segundos a ver si no aparecio cloudflare
+    //     return true;
+    //   } catch (err) {
+    //     return false;
+    //   }
+    // };
 
-    const isAvaliable = await avaliable();
-    const pageTitle2 = await page.title();
-    const property = await getPropertyZp2(page);
+    // const isAvaliable = await avaliable();
+    // const pageTitle2 = await page.title();
+    // const property = await getPropertyZp2(any);
     const pageUrl = page.url();
     await browser.close();
 
     return Response.json({
       pageUrl,
-      isAvaliable,
       pageTitle1,
-      pageTitle2,
-      property,
+      // isAvaliable,
+      // pageTitle2,
+      // property,
     });
   } catch (err) {
     console.log("Post err", err);
