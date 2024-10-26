@@ -33,7 +33,15 @@ export async function POST(request: Request) {
     );
     await page.goto(siteUrl);
     const pageTitle1 = await page.title();
-    await page.waitForSelector("#react-posting-app", { timeout: 7000 });
+    const avaliable = async () => {
+      try {
+        await page.waitForSelector("#react-posting-app", { timeout: 7000 });
+        return true;
+      } catch (err) {
+        return false;
+      }
+    };
+    const isAvaliable = await avaliable();
     const pageTitle2 = await page.title();
     const property = await getPropertyZp2(page);
     const pageUrl = page.url();
@@ -41,6 +49,7 @@ export async function POST(request: Request) {
 
     return Response.json({
       pageUrl,
+      isAvaliable,
       pageTitle1,
       pageTitle2,
       property,
