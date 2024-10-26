@@ -36,7 +36,7 @@ export async function POST(request: Request) {
 
     const avaliable = async () => {
       try {
-        await page.waitForSelector("#react-posting-app", { timeout: 10000 });
+        await page.waitForSelector("#react-posting-app", { timeout: 1000 });
         return true;
       } catch (err) {
         return false;
