@@ -1,4 +1,4 @@
-// import chromium from "@sparticuz/chromium-min";
+import chromium from "@sparticuz/chromium-min";
 import StealthPlugin from "puppeteer-extra-plugin-stealth";
 import puppeteer from "puppeteer-extra";
 import { getPropertyZp, getPropertyZp2 } from "./utils";
@@ -35,14 +35,14 @@ export async function POST(request: Request) {
     // );
     puppeteer.use(StealthPlugin());
     const browser = await puppeteer.launch({
-      headless: true,
       // ignoreHTTPSErrors: true,
-      // defaultViewport: chromium.defaultViewport,
-      // executablePath:
-      //   "C:Program FilesGoogleChromeApplicationchrome.exe" /* await chromium.executablePath(
-      //   "https://public-chromium.s3.us-east-1.amazonaws.com/chromium-v126.0.0-pack.tar"
-      // ), */,
+      headless: true,
+      defaultViewport: chromium.defaultViewport,
+      executablePath: await chromium.executablePath(
+        "https://public-chromium.s3.us-east-1.amazonaws.com/chromium-v126.0.0-pack.tar"
+      ),
     });
+    // ""C:Program FilesGoogleChromeApplicationchrome.exe""
     const page: Page = await browser.newPage();
     await page.goto(siteUrl);
     const pageTitle1 = await page.title();
