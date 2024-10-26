@@ -1,7 +1,6 @@
 import chromium from "@sparticuz/chromium-min";
 import puppeteer from "puppeteer-core";
 import { getPropertyZp, getPropertyZp2 } from "./utils";
-import randomUserAgent from "random-useragent";
 
 export async function POST(request: Request) {
   try {
@@ -29,11 +28,9 @@ export async function POST(request: Request) {
     });
     const page = await browser.newPage();
     // ? Set an user agent to avoid cloudflare tunnel
-    // await page.setUserAgent(
-    //   "5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36"
-    // );
-    console.log(randomUserAgent.getRandom());
-    await page.setUserAgent(randomUserAgent.getRandom());
+    await page.setUserAgent(
+      "5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36"
+    );
 
     await page.goto(siteUrl);
     const pageTitle1 = await page.title();
