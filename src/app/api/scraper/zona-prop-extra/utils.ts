@@ -147,7 +147,7 @@ export async function getPropertyZp(page: any) {
   }
 }
 
-export async function getPropertyZp2(page: Page) {
+export async function getPropertyZp2(page: any) {
   try {
     const propertyLinkStart = page.url();
     const body = await page.evaluate(() => {
