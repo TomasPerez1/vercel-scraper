@@ -33,14 +33,16 @@ export async function POST(request: Request) {
     );
     await page.goto(siteUrl);
     const pageTitle1 = await page.title();
+
     const avaliable = async () => {
       try {
-        await page.waitForSelector("#react-posting-app", { timeout: 7000 });
+        await page.waitForSelector("#react-posting-app", { timeout: 10000 });
         return true;
       } catch (err) {
         return false;
       }
     };
+
     const isAvaliable = await avaliable();
     const pageTitle2 = await page.title();
     const property = await getPropertyZp2(page);
