@@ -3,6 +3,14 @@ import { Page } from "puppeteer-core";
 export async function getPropertyZp(page: Page) {
   try {
     const property = await page.evaluate(() => {
+      // ? Is requeried HTML charged?
+      // if (!title) {
+      //   return {
+      //     err: "No se capturo el title",
+      //     body: document.querySelector("body"),
+      //   };
+      // }
+
       //?----------- TITLE -----------
       const titleElement = document.querySelector(".section-location-property");
       const titleElement2 = document.querySelector(".title-property");
@@ -11,12 +19,12 @@ export async function getPropertyZp(page: Page) {
         : (titleElement2 as HTMLElement).outerText;
 
       // ? Is requeried HTML charged?
-      if (!title) {
-        return {
-          err: "No se capturo el title",
-          body: document.querySelector("body"),
-        };
-      }
+      // if (!title) {
+      //   return {
+      //     err: "No se capturo el title",
+      //     body: document.querySelector("body"),
+      //   };
+      // }
 
       //?----------- FEATURES -----------
       const featuresElement = document.querySelector(
@@ -130,6 +138,25 @@ export async function getPropertyZp(page: Page) {
 
     await page.close();
     return { ...property, propertyLink: page.url() };
+  } catch (err) {
+    console.log(err);
+    return {
+      err,
+    };
+  }
+}
+
+export async function getPropertyZp2(page: Page) {
+  try {
+    const propertyLinkStart = page.url();
+    const body = await page.evaluate(() => {
+      return document.body.innerHTML.slice(0, 50);
+      // const body = document.querySelector("body");
+      // return body.toString();
+    });
+    await page.close();
+
+    return { body, propertyLinkStart, propertyLinkEnd: page.url() };
   } catch (err) {
     console.log(err);
     return {

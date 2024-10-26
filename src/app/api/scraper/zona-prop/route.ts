@@ -1,6 +1,6 @@
 import chromium from "@sparticuz/chromium-min";
 import puppeteer from "puppeteer-core";
-import { getPropertyZp } from "./utils";
+import { getPropertyZp, getPropertyZp2 } from "./utils";
 
 export async function POST(request: Request) {
   try {
@@ -33,12 +33,13 @@ export async function POST(request: Request) {
     );
     await page.goto(siteUrl);
     const pageTitle = await page.title();
-    // const screenshot = await page.screenshot();
-    const property = await getPropertyZp(page);
+    // const content = await page.content();
+    const property = await getPropertyZp2(page);
     const pageUrl = page.url();
     await browser.close();
 
     return Response.json({
+      // content,
       property,
       pageUrl,
       pageTitle,
