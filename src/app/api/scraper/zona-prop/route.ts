@@ -47,7 +47,7 @@ export async function POST(request: Request) {
 
     const isAvaliable = await avaliable();
     const pageTitle2 = await page.title();
-    const property = await getPropertyZp2(page);
+    const property = await getPropertyZp(page);
     const pageUrl = page.url();
     await browser.close();
 
