@@ -30,9 +30,7 @@ export async function POST(request: Request) {
     const page = await browser.newPage();
     // ? Set an user agent to avoid cloudflare tunnel
     await page.setUserAgent(
-      `5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.349${Math.floor(
-        Math.random() * 10
-      )}.100 Safari/537.36`
+      `5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36`
     );
 
     await page.goto(siteUrl);
