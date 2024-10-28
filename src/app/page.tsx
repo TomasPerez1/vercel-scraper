@@ -119,8 +119,9 @@ export default function Home() {
     console.log("promises", promises)
     const responses = await Promise.all(promises)
     console.log("responses", responses)
-    const okRes = responses.filter(r => r.data.isisAvaliable === true).length
-    const failedRes = responses.filter(r => r.data.isisAvaliable === false).length
+    const okRes = responses.filter(r => r.data.isAvaliable === true).length
+
+    const failedRes = responses.filter(r => r.data.isAvaliable === false).length
 
     console.log("OK RES", okRes)
     console.log("FAILED RES", failedRes)
