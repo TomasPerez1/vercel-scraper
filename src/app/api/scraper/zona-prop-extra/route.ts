@@ -1,4 +1,4 @@
-import { getPropertyZp, getPropertyZp2 } from "./utils";
+import { getPropertyZp } from "./utils";
 
 export async function POST(request: Request) {
   try {
