@@ -1,6 +1,6 @@
 import chromium from "@sparticuz/chromium-min";
 import puppeteer from "puppeteer-core";
-import { getPropertyZp } from "./utils";
+import { getPropertyZp, testPrisma } from "./utils";
 // import puppeteer from "puppeteer-extra";
 
 export async function POST(request: Request) {
@@ -50,9 +50,11 @@ export async function POST(request: Request) {
     const property = await getPropertyZp(page);
     const pageUrl = page.url();
     await browser.close();
+    const users = await testPrisma();
 
     return Response.json({
       pageUrl,
+      users,
       isAvaliable,
       pageTitle1,
       pageTitle2,

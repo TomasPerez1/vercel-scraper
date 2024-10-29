@@ -1,4 +1,14 @@
 import { Page } from "puppeteer-core";
+import prisma from "../../../../../lib/prisma";
+
+export async function testPrisma() {
+  try {
+    const users = await prisma.userType.findMany({});
+    return users;
+  } catch (err) {
+    console.log(err);
+  }
+}
 
 export async function getPropertyZp(page: Page) {
   try {
