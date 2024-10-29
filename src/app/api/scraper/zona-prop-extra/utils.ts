@@ -1,8 +1,17 @@
-import { Page } from "puppeteer-core";
+// import { Page } from "puppeteer";
+// import { Page as PageCore } from "puppeteer-core";
 
-export async function getPropertyZp(page: Page) {
+export async function getPropertyZp(page: any) {
   try {
     const property = await page.evaluate(() => {
+      // ? Is requeried HTML charged?
+      // if (!title) {
+      //   return {
+      //     err: "No se capturo el title",
+      //     body: document.querySelector("body"),
+      //   };
+      // }
+
       //?----------- TITLE -----------
       const titleElement = document.querySelector(".section-location-property");
       const titleElement2 = document.querySelector(".title-property");
@@ -138,7 +147,7 @@ export async function getPropertyZp(page: Page) {
   }
 }
 
-export async function getPropertyZp2(page: Page) {
+export async function getPropertyZp2(page: any) {
   try {
     const propertyLinkStart = page.url();
     const body = await page.evaluate(() => {

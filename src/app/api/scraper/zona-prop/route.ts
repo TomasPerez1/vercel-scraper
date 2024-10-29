@@ -1,6 +1,7 @@
 import chromium from "@sparticuz/chromium-min";
 import puppeteer from "puppeteer-core";
 import { getPropertyZp } from "./utils";
+// import puppeteer from "puppeteer-extra";
 
 export async function POST(request: Request) {
   try {
@@ -27,23 +28,35 @@ export async function POST(request: Request) {
       ignoreHTTPSErrors: true,
     });
     const page = await browser.newPage();
-    await page.goto(siteUrl, { waitUntil: "load" });
-    // const content = await page.content();
-    // console.log(content);
-    // await page.reload(); // ? Reload fix the problem to load the necesary elements to scrap
+    // ? Set an user agent to avoid cloudflare tunnel
+    await page.setUserAgent(
+      `5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36`
+    );
 
-    // await page.waitForDevicePrompt( )
+    await page.goto(siteUrl);
+    const pageTitle1 = await page.title();
 
-    const pageTitle = await page.title();
+    const avaliable = async () => {
+      try {
+        await page.waitForSelector("#react-posting-app", { timeout: 3000 }); //? Espera 3 segundos a ver si no aparecio cloudflare
+        return true;
+      } catch (err) {
+        return false;
+      }
+    };
 
+    const isAvaliable = await avaliable();
+    const pageTitle2 = await page.title();
     const property = await getPropertyZp(page);
     const pageUrl = page.url();
     await browser.close();
 
     return Response.json({
-      property,
-      pageTitle,
       pageUrl,
+      isAvaliable,
+      pageTitle1,
+      pageTitle2,
+      property,
     });
   } catch (err) {
     console.log("Post err", err);
