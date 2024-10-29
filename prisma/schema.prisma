@@ -1,0 +1,101 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         Int      @id @default(autoincrement())
+  name       String   @unique
+  userName   String?
+  password   String
+  email      String?
+  phone      Int?
+  active     Boolean  @default(false)
+  Scrap      Scrap[]
+  userTypeId Int      @default(2)
+  userType   UserType @relation(fields: [userTypeId], references: [id])
+}
+
+model UserType {
+  id    Int    @id @default(autoincrement())
+  type  String
+  users User[]
+}
+
+model OperationType {
+  id       Int        @id
+  type     String     @unique
+  scrap    Scrap[]
+  Property Property[]
+}
+
+model Platform {
+  id       Int        @id
+  name     String     @unique
+  property Property[]
+}
+
+model PropertyImgs {
+  id         Int      @id @default(autoincrement())
+  src        String
+  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  propertyId Int
+}
+
+model Property {
+  id              Int            @id @default(autoincrement())
+  title           String
+  price           Int
+  currency        String
+  propertyLink    String         @unique
+  description     String?
+  totalM2         Int?
+  coverM2         Int?
+  rooms           Int?
+  bathrooms       Int?
+  enviroments     Int?
+  garages         Int?
+  PropertyImgs    PropertyImgs[]
+  platformId      Int
+  platform        Platform       @relation(fields: [platformId], references: [id])
+  OperationType   OperationType? @relation(fields: [operationTypeId], references: [id])
+  operationTypeId Int?
+  scraps          Scrap[]
+}
+
+model Scrap {
+  id              Int           @id @default(autoincrement())
+  clientName      String
+  clientPhone     Int
+  clientEmail     String?
+  userName        String?
+  searchUrlMl     String?
+  searchUrlZp     String?
+  user            User          @relation(fields: [userId], references: [id])
+  userId          Int
+  operationType   OperationType @relation(fields: [operationTypeId], references: [id])
+  operationTypeId Int
+  // * Props no controladas
+  propertiesType  String?
+  propertiesZone  String?
+
+  propertiesRooms       Int?
+  propertiesBathrooms   Int?
+  propertiesEnviroments Int?
+  propertiesGarages     Int?
+
+  propertiesPriceRange   String?
+  propertiesTotalM2Range String?
+  propertiesCoverM2Range String?
+
+  scrapObservations String?
+
+  // *
+  createdAt  DateTime   @default(now())
+  //
+  properties Property[]
+}
