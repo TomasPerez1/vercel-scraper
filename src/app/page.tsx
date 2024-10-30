@@ -21,7 +21,7 @@ export default function Home() {
     setResults(property.data)
   }
 
-   async function handleZp() {
+  async function handleZp() {
     console.log(siteUrl)
     
     const property = await  axios.post('/api/scraper/zona-prop', {

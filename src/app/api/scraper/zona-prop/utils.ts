@@ -1,5 +1,5 @@
 import { Page } from "puppeteer-core";
-import prisma from "../../../../../lib/prisma";
+import prisma from "../../../lib/prisma";
 
 export async function testPrisma() {
   try {
