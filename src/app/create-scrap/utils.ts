@@ -187,3 +187,24 @@ export const saveScrap = async ({
     toast.error(`Error ${err}`);
   }
 };
+
+export const handleScrapData = ({
+  target: { name, value, title },
+  setScrapData,
+}: any) => {
+  setScrapData((prev: any) => {
+    if (
+      title === "quantity" ||
+      name === "operationTypeId" ||
+      name === "clientPhone"
+    ) {
+      value = parseInt(value);
+    }
+
+    if (title === "quantity" && value?.length > 2) {
+      return prev;
+    }
+    const newData = { ...prev, [name]: value };
+    return newData;
+  });
+};

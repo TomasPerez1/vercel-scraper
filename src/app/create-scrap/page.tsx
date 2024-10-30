@@ -12,9 +12,10 @@ import {
 import { RiDeleteBin6Line, RiSaveLine } from "@remixicon/react";
 import {disableSaveScrap, generateScrap, saveScrap, editProperty, deleteProperty} from "./utils"
 // import ScrapPropertyCard from "./ScrapPropertyCard";
-// import { API } from "../../api";
 // import ScrapData from "./ScrapData";
 // import { generatePdf } from "./utils";
+// import from "./"
+import ScrapData from "./scrapData";
 
 function ScrapPropertyCard ({editScrapProperty,
   propertyData,
@@ -64,11 +65,11 @@ export default function CreateScrap() {
         </p>
       </div>
 
-      {/* <ScrapData
+      <ScrapData
         scrapData={scrapData}
         setScrapData={setScrapData}
         // handleSubmit={handleSubmit}
-      /> */}
+      />
 
       {/* GENERATE SCRAP */}
       <section
