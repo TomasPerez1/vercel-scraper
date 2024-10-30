@@ -1,31 +1,13 @@
-import chromium from "@sparticuz/chromium-min";
-import puppeteer from "puppeteer-core";
 import { getPropertyMl } from "./utils";
+import { getBrowser } from "./utils";
 
 export async function POST(request: Request) {
   try {
     const { siteUrl } = await request.json();
 
-    const isLocal = !!process.env.CHROME_EXECUTABLE_PATH;
-    console.log(isLocal);
-    const browser = await puppeteer.launch({
-      args: isLocal
-        ? puppeteer.defaultArgs()
-        : [
-            ...chromium.args,
-            "--hide-scrollbars",
-            "--incognito",
-            "--no-sandbox",
-          ],
-      defaultViewport: chromium.defaultViewport,
-      executablePath: isLocal
-        ? process.env.CHROME_EXECUTABLE_PATH
-        : await chromium.executablePath(
-            "https://public-chromium.s3.us-east-1.amazonaws.com/chromium-v126.0.0-pack.tar"
-          ),
-      headless: chromium.headless,
-      ignoreHTTPSErrors: true,
-    });
+    const browser = await getBrowser();
+    if (!browser) return "no browser instance";
+
     const page = await browser.newPage();
     await page.goto(siteUrl);
     await page.reload(); // ? Reload fix the problem to load the necesary elements to scrap

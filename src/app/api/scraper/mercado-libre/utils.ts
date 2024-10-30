@@ -247,7 +247,9 @@ export async function getPropertyMl(page: any) {
 
 import chromium from "@sparticuz/chromium-min";
 import puppeteer from "puppeteer-core";
-export async function getBrowser() {
+import { Browser } from "puppeteer-core";
+
+export async function getBrowser(): Promise<Browser | undefined> {
   try {
     const isLocal = !!process.env.CHROME_EXECUTABLE_PATH;
     const browser = await puppeteer.launch({
@@ -271,6 +273,6 @@ export async function getBrowser() {
     return browser;
   } catch (err) {
     console.log(err);
-    return err;
+    // return err;
   }
 }

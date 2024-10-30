@@ -2,13 +2,14 @@ import chromium from "@sparticuz/chromium-min";
 import puppeteer from "puppeteer-core";
 import { getPropertyZp, testPrisma } from "./utils";
 // import puppeteer from "puppeteer-extra";
+// import StealthPlugin from "puppeteer-extra-plugin-stealth";
 
 export async function POST(request: Request) {
   try {
     const { siteUrl } = await request.json();
     console.log("ZP", siteUrl);
     const isLocal = !!process.env.CHROME_EXECUTABLE_PATH;
-    console.log(isLocal);
+    console.log("isLocal", isLocal);
     const browser = await puppeteer.launch({
       args: isLocal
         ? puppeteer.defaultArgs()
@@ -27,6 +28,22 @@ export async function POST(request: Request) {
       headless: chromium.headless,
       ignoreHTTPSErrors: true,
     });
+    // async function handler() {
+    //   if (typeof window === "undefined") {
+    //     const puppeteer = (await import("puppeteer-extra")).default;
+    //     const StealthPlugin = (await import("puppeteer-extra-plugin-stealth"))
+    //       .default;
+
+    //     puppeteer.use(StealthPlugin());
+
+    //     // Tu lógica de scraping
+    //     const browser = await puppeteer.launch();
+    //     // const page = await browser.newPage();
+    //     return browser;
+    //     // ...
+    //   }
+    // }
+    // const browser = await handler();
     const page = await browser.newPage();
     // ? Set an user agent to avoid cloudflare tunnel
     await page.setUserAgent(
@@ -49,12 +66,11 @@ export async function POST(request: Request) {
     const pageTitle2 = await page.title();
     const property = await getPropertyZp(page);
     const pageUrl = page.url();
+    await page.close();
     await browser.close();
-    const users = await testPrisma();
 
     return Response.json({
       pageUrl,
-      users,
       isAvaliable,
       pageTitle1,
       pageTitle2,

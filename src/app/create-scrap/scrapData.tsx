@@ -19,7 +19,7 @@ export default function ScrapData({ setScrapData, scrapData }: any) {
           {/* <p>Nombre del cliente</p> */}
           <Input
             isRequired
-            value={scrapData.clientName}
+            value={scrapData.clientName || ""}
             onChange={(evt: any) => handleScrapData({target: evt.target, setScrapData})}
             className=""
             variant="flat"

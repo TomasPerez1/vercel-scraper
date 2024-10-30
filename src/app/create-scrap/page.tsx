@@ -1,5 +1,6 @@
 "use client";
 
+import axios from "axios";
 import { useState } from "react";
 import {
   Button,
@@ -12,9 +13,7 @@ import {
 import { RiDeleteBin6Line, RiSaveLine } from "@remixicon/react";
 import {disableSaveScrap, generateScrap, saveScrap, editProperty, deleteProperty} from "./utils"
 // import ScrapPropertyCard from "./ScrapPropertyCard";
-// import ScrapData from "./ScrapData";
 // import { generatePdf } from "./utils";
-// import from "./"
 import ScrapData from "./scrapData";
 
 function ScrapPropertyCard ({editScrapProperty,
@@ -52,7 +51,76 @@ export default function CreateScrap() {
     coverM2_min: 0,
     coverM2_max: 0,
   };
+
+
   const [scrapData, setScrapData] = useState(initialValues);
+
+  async function handleOnClickAll() {
+
+    const _urls2 = [
+      'https://www.zonaprop.com.ar/propiedades/clasificado/alclappa-impecable-departamento-en-alquiler-permanente-54509063.html',
+      'https://www.zonaprop.com.ar/propiedades/clasificado/alclapin-departamento-centrico-en-alquiler-permanente-54657596.html',
+      'https://www.zonaprop.com.ar/propiedades/clasificado/alclapin-departamento-en-alquiler-temporal-2-dorm.-54051639.html',
+      'https://www.zonaprop.com.ar/propiedades/clasificado/alclapin-departamento-centrico-bariloche.-alquiler-por-2-a-6-54701171.html',
+      'https://www.zonaprop.com.ar/propiedades/clasificado/alclapin-departamento-monoambiente-en-alquiler-en-kilom-54767936.html',
+      'https://www.zonaprop.com.ar/propiedades/clasificado/alclapin-departamento-san-carlos-de-bariloche-52718960.html',
+      'https://www.zonaprop.com.ar/propiedades/clasificado/alclapin-alquiler-departamento-villa-huapi-bariloche-54795020.html',
+      'https://www.zonaprop.com.ar/propiedades/clasificado/alclapin-alquiler-departamentos-y-cocheras-54765428.html',
+      'https://www.zonaprop.com.ar/propiedades/clasificado/alclapin-departamento-barrio-belgrano-alquiler-permanente.-51024990.html',
+      'https://www.zonaprop.com.ar/propiedades/clasificado/alclapin-departamento-en-alquiler-en-pajaro-azul-bariloche-54138723.html',
+      'https://www.zonaprop.com.ar/propiedades/clasificado/alclapin-alquiler-depto-c-costa-de-lago-bustillouno-1-dorm-54583309.html',
+      'https://www.zonaprop.com.ar/propiedades/clasificado/alclapin-barrio-belgrano-vista-un-dormitorio-54764075.html',
+      'https://www.zonaprop.com.ar/propiedades/clasificado/alclapin-departamento-145-54679465.html',
+      'https://www.zonaprop.com.ar/propiedades/clasificado/alclapin-alquiler-permanenete-54678858.html',
+      'https://www.zonaprop.com.ar/propiedades/clasificado/alclapin-departamento-san-carlos-de-bariloche-51856744.html',
+      'https://www.zonaprop.com.ar/propiedades/clasificado/alclapin-dto-1-dorm-en-barrio-cerrado-con-costa-al-lago-nahuel-52845203.html',
+      'https://www.zonaprop.com.ar/propiedades/clasificado/alclapin-alquiler-departamento-villa-huapi-bariloche-54588181.html',
+      'https://www.zonaprop.com.ar/propiedades/clasificado/alclapin-departamento-en-alquiler-en-las-marias-bariloche-53854352.html',
+      'https://www.zonaprop.com.ar/propiedades/clasificado/alclapin-departamento-en-alquiler-permanente-bariloche-54707171.html',
+      'https://www.zonaprop.com.ar/propiedades/clasificado/alclappa-monohambiente-centrico-54089625.html',        
+      'https://www.zonaprop.com.ar/propiedades/clasificado/alclappa-dpto.-en-el-centro-con-expensan-y-servicios-incluidos-53904315.html',
+      'https://www.zonaprop.com.ar/propiedades/clasificado/alclappa-departamento-bariloche-solo-turismo-contactarse-53286493.html',
+      'https://www.zonaprop.com.ar/propiedades/clasificado/alclappa-divino-monoambiente-54594101.html',
+      'https://www.zonaprop.com.ar/propiedades/clasificado/alclappa-impecable-departamento-en-alquiler-permanente-54509063.html',
+      'https://www.zonaprop.com.ar/propiedades/clasificado/alclapin-departamento-centrico-en-alquiler-permanente-54657596.html',
+      'https://www.zonaprop.com.ar/propiedades/clasificado/alclapin-departamento-en-alquiler-temporal-2-dorm.-54051639.html',
+      'https://www.zonaprop.com.ar/propiedades/clasificado/alclapin-departamento-centrico-bariloche.-alquiler-por-2-a-6-54701171.html',
+      'https://www.zonaprop.com.ar/propiedades/clasificado/alclapin-departamento-monoambiente-en-alquiler-en-kilom-54767936.html',
+      'https://www.zonaprop.com.ar/propiedades/clasificado/alclapin-departamento-san-carlos-de-bariloche-52718960.html',
+      'https://www.zonaprop.com.ar/propiedades/clasificado/alclapin-alquiler-departamento-villa-huapi-bariloche-54795020.html',
+      'https://www.zonaprop.com.ar/propiedades/clasificado/alclapin-alquiler-departamentos-y-cocheras-54765428.html',
+      'https://www.zonaprop.com.ar/propiedades/clasificado/alclapin-departamento-barrio-belgrano-alquiler-permanente.-51024990.html',
+      'https://www.zonaprop.com.ar/propiedades/clasificado/alclapin-departamento-en-alquiler-en-pajaro-azul-bariloche-54138723.html',
+      'https://www.zonaprop.com.ar/propiedades/clasificado/alclapin-alquiler-depto-c-costa-de-lago-bustillouno-1-dorm-54583309.html',
+      'https://www.zonaprop.com.ar/propiedades/clasificado/alclapin-barrio-belgrano-vista-un-dormitorio-54764075.html',
+      'https://www.zonaprop.com.ar/propiedades/clasificado/alclapin-departamento-145-54679465.html',
+      'https://www.zonaprop.com.ar/propiedades/clasificado/alclapin-alquiler-permanenete-54678858.html',
+      'https://www.zonaprop.com.ar/propiedades/clasificado/alclapin-departamento-san-carlos-de-bariloche-51856744.html',
+      'https://www.zonaprop.com.ar/propiedades/clasificado/alclapin-dto-1-dorm-en-barrio-cerrado-con-costa-al-lago-nahuel-52845203.html',
+      'https://www.zonaprop.com.ar/propiedades/clasificado/alclapin-alquiler-departamento-villa-huapi-bariloche-54588181.html',
+      'https://www.zonaprop.com.ar/propiedades/clasificado/alclapin-departamento-en-alquiler-en-las-marias-bariloche-53854352.html',
+      'https://www.zonaprop.com.ar/propiedades/clasificado/alclapin-departamento-en-alquiler-permanente-bariloche-54707171.html',
+      'https://www.zonaprop.com.ar/propiedades/clasificado/alclappa-monohambiente-centrico-54089625.html',        
+      'https://www.zonaprop.com.ar/propiedades/clasificado/alclappa-dpto.-en-el-centro-con-expensan-y-servicios-incluidos-53904315.html',
+      'https://www.zonaprop.com.ar/propiedades/clasificado/alclappa-departamento-bariloche-solo-turismo-contactarse-53286493.html',
+      'https://www.zonaprop.com.ar/propiedades/clasificado/alclappa-divino-monoambiente-54594101.html'
+    ]
+      const promises = _urls2.map(url => {
+        return axios.post('/api/scraper/zona-prop', {
+        siteUrl: url
+      })
+    });
+    console.log("promises", promises)
+    const responses = await Promise.all(promises)
+    console.log("responses", responses)
+    const okRes = responses.filter(r => r.data.isAvaliable === true).length
+    const failedRes = responses.filter(r => r.data.isAvaliable === false).length
+
+    console.log("OK RES", okRes)
+    console.log("FAILED RES", failedRes, responses.filter(r => r.data.isAvaliable === false))
+
+  }
+
 
   return (
     <div className="flex  flex-col gap-4">
@@ -234,13 +302,14 @@ export default function CreateScrap() {
         {/* HANDLE SCRAP */}
         <section className="w-[70%] mx-auto flex flex-col gap-4 md:flex-row items-center my-6">
           <Button
-            isDisabled={
-              (propertiesMl?.length && propertiesZp?.length) ||
-              (!scrapUrlMl?.length && !scrapUrlZp?.length)
-                ? true
-                : false
-            }
-            onClick={generateScrap}
+            // isDisabled={
+            //   (propertiesMl?.length && propertiesZp?.length) ||
+            //   (!scrapUrlMl?.length && !scrapUrlZp?.length)
+            //     ? true
+            //     : false
+            // }
+            // onClick={generateScrap}
+            onClick={handleOnClickAll}
             className="w-fit mx-auto text-2xl pa"
             color="secondary"
             size="lg"
