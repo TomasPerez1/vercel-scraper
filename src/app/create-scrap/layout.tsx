@@ -11,7 +11,7 @@ export default function Layout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="border-2 border-green-500">
+    <div className="">
       {children}
     </div>
   );
