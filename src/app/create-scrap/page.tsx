@@ -73,9 +73,10 @@ export default function CreateScrap() {
       {/* GENERATE SCRAP */}
       <section
         className={
-          !scrapData.clientName?.length ||
-          !scrapData.operationTypeId ||
-          !scrapData.clientPhone
+          // !scrapData.clientName?.length ||
+          // !scrapData.operationTypeId ||
+          // !scrapData.clientPhone
+          false
             ? // false
               "opacity-30 pointer-events-none disabled:true" /* Deshabilitar el scrap si no estanlos campos */
             : ""
